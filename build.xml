@@ -30,11 +30,7 @@
   </target>
 
   <target name="jar" depends="compile">
-    <jar jarfile="build/hadoop-hbase-streaming.jar" basedir="classes">
-      <manifest>
-        <attribute name="Main-Class" value="org.childtv.hadoop.hbase.streaming.HadoopHBaseStreaming"/>
-      </manifest>
-    </jar>
+    <jar jarfile="build/hadoop-hbase-streaming.jar" basedir="classes" />
   </target>
 
   <target name="clean">

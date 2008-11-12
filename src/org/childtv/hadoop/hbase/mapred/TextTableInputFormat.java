@@ -12,6 +12,7 @@ import org.apache.hadoop.mapred.RecordReader;
 import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.JobConfigurable;
+import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.io.RowResult;
 import org.apache.hadoop.hbase.mapred.TableInputFormat;
@@ -20,6 +21,8 @@ import org.apache.hadoop.hbase.util.Base64;
 public abstract class TextTableInputFormat
     implements InputFormat<Text, Text>, JobConfigurable {
 
+    public static final String TABLE_KEY = "map.input.table";
+    public static final String COLUMNS_KEY = "map.input.columns";
     public static final String HAS_TIMESTAMP_KEY = "map.input.timestamp";
     public static final String IS_BINARY_KEY = "map.input.binary";
 
@@ -32,6 +35,8 @@ public abstract class TextTableInputFormat
     }
 
     public void configure(JobConf job) {
+        FileInputFormat.setInputPaths(job, job.get(TABLE_KEY));
+        job.set(TableInputFormat.COLUMN_LIST, job.get(COLUMNS_KEY));
         inputFormat.configure(job);
         hasTimestamp = argToBoolean(job.get(HAS_TIMESTAMP_KEY));
         isBinary = argToBoolean(job.get(IS_BINARY_KEY));
