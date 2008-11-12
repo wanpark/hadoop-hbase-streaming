@@ -13,7 +13,8 @@ import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.hbase.mapred.TableInputFormat;
 
 import org.childtv.hadoop.hbase.mapred.JSONTableInputFormat;
-
+import org.childtv.hadoop.hbase.mapred.XMLTableInputFormat;
+import org.childtv.hadoop.hbase.mapred.ListTableInputFormat;
 
 public class HBaseStreamJob extends StreamJob {
 
@@ -21,6 +22,8 @@ public class HBaseStreamJob extends StreamJob {
     static {
         inputFormatAbbr = new HashMap<String, Class<? extends InputFormat>>();
         inputFormatAbbr.put("json", JSONTableInputFormat.class);
+        inputFormatAbbr.put("xml", XMLTableInputFormat.class);
+        inputFormatAbbr.put("list", ListTableInputFormat.class);
     }
 
     private String table;

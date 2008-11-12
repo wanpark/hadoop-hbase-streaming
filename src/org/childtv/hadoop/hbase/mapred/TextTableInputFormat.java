@@ -15,11 +15,17 @@ import org.apache.hadoop.mapred.JobConfigurable;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.io.RowResult;
 import org.apache.hadoop.hbase.mapred.TableInputFormat;
+import org.apache.hadoop.hbase.util.Base64;
 
 public abstract class TextTableInputFormat
     implements InputFormat<Text, Text>, JobConfigurable {
 
+    public static final String HAS_TIMESTAMP_KEY = "map.input.timestamp";
+    public static final String IS_BINARY_KEY = "map.input.binary";
+
     protected TableInputFormat inputFormat;
+    private boolean hasTimestamp;
+    private boolean isBinary;
 
     public TextTableInputFormat() {
         inputFormat = new TableInputFormat();
@@ -27,6 +33,26 @@ public abstract class TextTableInputFormat
 
     public void configure(JobConf job) {
         inputFormat.configure(job);
+        hasTimestamp = argToBoolean(job.get(HAS_TIMESTAMP_KEY));
+        isBinary = argToBoolean(job.get(IS_BINARY_KEY));
+    }
+
+    public boolean hasTimestamp() { return hasTimestamp; }
+    public boolean isBinary() { return isBinary; }
+
+    protected String encodeKey(byte[] key) {
+        return isBinary() ? Base64.encodeBytes(key) : new String(key);
+    }
+    protected String encodeValue(byte[] value) {
+        return isBinary() ? Base64.encodeBytes(value) : new String(value);
+    }
+
+    protected boolean argToBoolean(String arg) {
+        if (arg == null) return false;
+        return arg.equals("true")
+            || arg.equals("yes")
+            || arg.equals("on")
+            || arg.equals("1");
     }
 
     public void validateInput(JobConf job) throws IOException {
