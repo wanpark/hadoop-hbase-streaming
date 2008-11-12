@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<project name="hadoop-hbase-streaming" default="jar">
+
+  <property environment="env"/>
+
+  <path id="classpath">
+    <pathelement location="classes"/>
+    <pathelement location="${env.HADOOP_HOME}/hadoop-0.17.2.1-core.jar"/>
+    <pathelement location="${env.HADOOP_HOME}/conf"/>
+    <pathelement location="${env.HBASE_HOME}/hbase-0.2.1.jar"/>
+    <pathelement location="${env.HBASE_HOME}/conf"/>
+    <fileset dir="${env.HADOOP_HOME}/lib">
+      <include name="**/*.jar" />
+    </fileset>
+    <pathelement location="${env.HADOOP_HOME}/contrib/streaming/hadoop-0.17.2.1-streaming.jar"/>
+  </path>
+
+  <target name="init">
+    <mkdir dir="classes"/>
+    <mkdir dir="build"/>
+  </target>
+
+  <target name="compile" depends="init">
+    <javac srcdir="src"
+           includes="**/*.java"
+           destdir="classes">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar jarfile="build/hadoop-hbase-streaming.jar" basedir="classes">
+      <manifest>
+        <attribute name="Main-Class" value="org.childtv.hadoop.hbase.streaming.HadoopHBaseStreaming"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="clean">
+    <delete dir="build"/>
+    <delete dir="classes"/>
+  </target>
+
+</project>
