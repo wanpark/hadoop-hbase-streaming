@@ -88,12 +88,6 @@ public class HadoopHBaseStreaming {
             }
         }
 
-        /*
-        System.err.println("args: ");
-        for (String arg: args) {
-            System.err.println(arg);
-        }
-        */
         return args.toArray(new String[0]);
     }
 }
