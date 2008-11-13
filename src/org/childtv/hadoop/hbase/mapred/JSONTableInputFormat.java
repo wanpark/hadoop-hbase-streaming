@@ -22,7 +22,7 @@ public class JSONTableInputFormat extends TextTableInputFormat {
             Map<String, String> cell = new HashMap<String, String>();
             cell.put("value", encodeValue(entry.getValue().getValue()));
             cell.put("timestamp", String.valueOf(entry.getValue().getTimestamp()));
-            values.put(encodeKey(entry.getKey()), cell);
+            values.put(encodeColumnName(entry.getKey()), cell);
         }
         return JSONUtil.toJSON(values);
     }
@@ -30,7 +30,7 @@ public class JSONTableInputFormat extends TextTableInputFormat {
     public String formatRowResultWithoutTimestamp(RowResult row) {
         Map<String, String> values = new HashMap<String, String>();
         for (Map.Entry<byte[], Cell> entry : row.entrySet()) {
-            values.put(encodeKey(entry.getKey()), encodeValue(entry.getValue().getValue()));
+            values.put(encodeColumnName(entry.getKey()), encodeValue(entry.getValue().getValue()));
         }
         return JSONUtil.toJSON(values);
     }

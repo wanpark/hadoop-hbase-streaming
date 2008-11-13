@@ -26,6 +26,7 @@
            includes="**/*.java"
            destdir="classes">
       <classpath refid="classpath"/>
+      <compilerarg value="-Xlint:unchecked" />
     </javac>
   </target>
 

@@ -45,7 +45,7 @@ public abstract class TextTableInputFormat
     public boolean hasTimestamp() { return hasTimestamp; }
     public boolean isBinary() { return isBinary; }
 
-    protected String encodeKey(byte[] key) {
+    protected String encodeColumnName(byte[] key) {
         return isBinary() ? Base64.encodeBytes(key) : new String(key);
     }
     protected String encodeValue(byte[] value) {

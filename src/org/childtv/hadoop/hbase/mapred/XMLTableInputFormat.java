@@ -36,7 +36,7 @@ public class XMLTableInputFormat extends TextTableInputFormat {
             row.appendChild(column);
 
             Element name = document.createElement("name");
-            name.appendChild(document.createTextNode(encodeKey(entry.getKey())));
+            name.appendChild(document.createTextNode(encodeColumnName(entry.getKey())));
             column.appendChild(name);
 
             Element value = document.createElement("value");
